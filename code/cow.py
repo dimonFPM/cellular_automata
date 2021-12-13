@@ -5,7 +5,6 @@ import time
 animal_list = []  # текущий список животных
 
 
-
 def paint_list(animal_list: list) -> None:
     '''Функция получает на вход список количества животных, которых надо вывести в консоль.'''
     for i in range(len(animal_list)):
