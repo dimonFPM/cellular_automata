@@ -4,8 +4,8 @@ from loguru import logger
 import tkinter.messagebox as mbox
 import tkinter.filedialog as fd
 import random
-import matplotlib.pyplot as plt
-import numpy as np
+# import matplotlib.pyplot as plt
+# import numpy as np
 
 logger.add("../log/log_life.log", level="DEBUG", format="{time} {level} {message}", compression="zip", rotation="10 MB")
 logger.remove()
