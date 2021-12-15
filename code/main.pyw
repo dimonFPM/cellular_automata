@@ -4,11 +4,10 @@ from loguru import logger
 import tkinter.messagebox as mbox
 import tkinter.filedialog as fd
 import random
-# import matplotlib.pyplot as plt
-# import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
 
-
-logger.add("../log/log_life.log", level="DEBUG", format="{time} {level} {message}", compression="zip", rotation="10 MB")
+logger.add("log_life.log", level="DEBUG", format="{time} {level} {message}", compression="zip", rotation="10 MB")
 logger.remove()
 logger.info("начало программы")
 
@@ -163,29 +162,20 @@ def save_list(now_list: tuple) -> None:
                        "Поля: 'размерность поля','номер поколения' и\n 'процент заполнения поля' некорректны.")
 
 
-# def grath(z_list: list, e_size: tk.Entry) -> None:
-#     size = int(e_size.get())
-#     for i in z_list:
-#         x, y = np.mgrid[0:size:1, 0:size:1]
-#         print(len(x))
-#         print(len(y))
-#         # y = np.array([i for i in range(5)])
-#
-#         # z = [[0 for _ in range(5)] for _ in range(5)]
-#         # z = [[0, 0, 0, 0, 0],
-#         #      [0, 1, 1, 1, 0],
-#         #      [0, 1, 1, 1, 0],
-#         #      [0, 1, 1, 2, 0],
-#         #      [0, 0, 0, 0, 0]]
-#
-#         z = np.array(i)
-#
-#         fig = plt.figure()
-#
-#         ax = fig.add_subplot(111, projection='3d')
-#         # ax.legend()
-#         ax.plot_surface(x, y, z)
-#         plt.show()
+def grath(z_list: list, e_size: tk.Entry) -> None:
+    size = int(e_size.get())
+    z = np.zeros((size, size))
+    for i in range(1, len(z_list) - 1):
+        for j in range(1, len(z_list) - 1):
+            z[i - 1][j - 1] = sum((z_list[i - 1][j - 1], z_list[i - 1][j], z_list[i - 1][j + 1],
+                                   z_list[i][j - 1], z_list[i][j], z_list[i][j + 1],
+                                   z_list[i + 1][j - 1], z_list[i + 1][j], z_list[i + 1][j + 1]))
+
+    x, y = np.mgrid[0:size:1, 0:size:1]
+    figure1 = plt.figure("График")
+    ax1 = figure1.add_subplot(111, projection="3d")
+    ax1.plot_surface(x, y, z)
+    plt.show()
 
 
 def paint_grid(canvas: tk.Canvas, width_win: int, size: int) -> None:
@@ -603,10 +593,6 @@ def action(now_list: tuple, e_nomer_age: tk.Entry, e_size: tk.Entry) -> None:
             now_list = list(now_list)
             for i in range(len(now_list)):
                 now_list[i] = list(now_list[i])
-                # for j in range(len(now_list)):
-                #     now_list[i][j] = list(now_list[i][j])
-            grath_list = []
-        # future_list - список
         # logger.info(f"{type(future_list)=}")
         k = 0
         l_age.config(text=f"{k}")  # надо бы передать в функцию объект класса Label
@@ -681,7 +667,7 @@ def action(now_list: tuple, e_nomer_age: tk.Entry, e_size: tk.Entry) -> None:
 
                 case "diff_morgolus":
                     turn(k, now_list)
-                    # print(*now_list, sep="\n")
+                # print(*now_list, sep="\n")
                     l_age.config(text=f"{k}")  # надо бы передать в функцию объект класса Label
 
                     # if k == 1 or k == int(e_nomer_age.get()) or k == int(e_nomer_age.get()) // 2:
@@ -696,6 +682,7 @@ def action(now_list: tuple, e_nomer_age: tk.Entry, e_size: tk.Entry) -> None:
                     canvas.update()
                     if k == int(e_nomer_age.get()):
                         logger.info("финальное k={}".format(k))
+                        grath(now_list, e_size)
                         break
                     elif cancel_check.get() == True:
                         logger.info("функция action была остановленна")
