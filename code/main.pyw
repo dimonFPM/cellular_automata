@@ -7,7 +7,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-logger.add("../log/log_life.log", level="DEBUG", format="{time} {level} {message}", compression="zip", rotation="10 MB")
+logger.add("log_life.log", level="DEBUG", format="{time} {level} {message}", compression="zip", rotation="10 MB")
 logger.remove()
 logger.info("начало программы")
 
